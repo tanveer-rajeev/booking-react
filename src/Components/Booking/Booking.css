@@ -1,0 +1,17 @@
+.bookingDiv{
+    border: 1px solid black;
+    width: 40%;
+    margin: auto;
+    margin-top: 20px;
+     margin-bottom: 30px;
+     background-color: rgb(166, 213, 243);
+     border-radius: 6px;
+     color: black;
+     justify-content:center;
+}
+
+#bookingDate, #rooms,#name{
+    border: 1px solid orangered;
+    border-radius: 6px;
+    width: 700px;
+}

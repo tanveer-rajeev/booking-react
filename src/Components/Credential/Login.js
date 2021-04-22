@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { UserContext } from '../../App';
 import { logInWithCredentials, singUPWithCredentials } from './CredentialController';
-
+import "./login.css"
 const Login = () => {
 
     const [credential, setCredential] = useState({
@@ -16,7 +16,6 @@ const Login = () => {
     const history = useHistory();
 
     const handleResponse = (res, redirect) => {
-        console.log(res);
         if (redirect) {
             setLoggedInUser(res);
             history.push(`booking`);
@@ -24,8 +23,6 @@ const Login = () => {
             setNewUser(redirect);
         }
     }
-
-
 
     const handleChange = (event) => {
         const userInfo = { ...credential };
@@ -45,13 +42,13 @@ const Login = () => {
         const { username, password } = credential;
         e.preventDefault();
         if (newUser) {
-            console.log("Create account");
             singUPWithCredentials(username, password)
                 .then((response) => {
                     handleResponse(response, false);
                 })
         }
         else if (username && password) {
+
             logInWithCredentials(username, password)
                 .then((response) => {
                     handleResponse(response, true);
@@ -61,25 +58,36 @@ const Login = () => {
     }
 
     return (
-        <div className="login container justify-content-center ">
+
+        <div id="accountDiv" className=" container p-5">
 
             <form onSubmit={handleSubmit}>
-                {
-                    newUser && <h1>Create Account</h1>
-                }
-                {
-                    !newUser && <h1>Log In </h1>
-                }
-                <input type="text" onChange={handleChange} placeholder="Enter your username" value={credential.username} required />
-                <br />
-                <input type="password" onChange={handleChange} placeholder="Enter your password" value={credential.password} required />
-                <br />
-                <input className="submitButton" type="submit" value={newUser ? 'Sign Up' : 'Log In'} />
+                           {
+                                newUser && <h1>Create Account</h1>
+                            }
+                            {
+                                !newUser && <h1>Log In </h1>
+                            }
+                <div className="input-group">
+                    <label htmlFor="">Username</label>
+                    <input id="signUp-username" onChange={handleChange} className="inp-style" type="text" name="" placeholder="username"/>
+                </div>
+
+                <div className="input-group">
+                    <label htmlFor="">Password</label>
+                    <input id="signUp-password" onChange={handleChange} className="inp-style" type="password" name="" placeholder="password"/>
+                </div>
+
+                <br/>
+                <input className="btn-style" type="submit" value={newUser ? 'Sign Up' : 'Log In'} />
+
             </form>
+
             <br />
-            <h5> Don't have an account?</h5>
-            <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id="" />
-            <label htmlFor="newUser">Create Account</label> <br />
+                 <h5> Don't have an account?</h5>
+                <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id="" />
+                <label htmlFor="newUser">Create Account</label>
+            <br />
         </div>
     );
 };

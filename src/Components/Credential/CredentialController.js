@@ -22,36 +22,40 @@ export const logInWithCredentials = (username, password) => {
 
 }
 
-export const singUPWithCredentials = (username, password) => {
-    const loginAPI = `http://localhost:8080/users`;
+export const signUPWithCredentials = (username, password) => {
+    const signUpAPI = `http://localhost:8080/signusers`;
 
-    return axios.post(loginAPI, {
+    return axios.post(signUpAPI, {
         username: username,
         password: password
     })
         .then(response => {
             return response;
         })
-        .catch(err => signUpErrorNotification(err));
+        .catch(err => {
+            let errorMessage= signUpErrorNotification(err);
+            console.log(errorMessage);
+            return errorMessage;
+        });
 }
 
 const signUpErrorNotification = (error) => {
-
+    
     const errResponse = error.response.data.message;
     const firstChar = errResponse.charAt(0);
-
+    
     switch (firstChar) {
         case '-':
-            alert("User  name already exist \nTry another name");
-            break;
+            return "User  name already exist \nTry another name";
+           
         case '~':
-            alert("User name should be at least 3 characters");
-            break;
+            return  "User name should be at least 3 characters";
+          
         case '>':
-            alert("Password should be 6 characters and contains with any symbol");
-            break;
+            return"Password should be 6 characters and contains with any symbol";
+           
         default:
-            alert("username and password can not be empty");
+            return "username and password can not be empty";
 
     }
 

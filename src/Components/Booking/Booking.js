@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Card} from "react-bootstrap";
+import React, {useState} from 'react';
+import {Button} from "react-bootstrap";
 import './Booking.css';
 import {bookingController} from "./BookingController";
 import SuggestRooms from "./SuggestRooms";
@@ -18,8 +18,7 @@ const Booking = () => {
     })
 
     const handleResponse = (response) => {
-        // console.log(response);
-        // console.log(typeof(response));
+        console.log(response)
         if (!response.bookedRoom) {
             setTitle(response[0]);
             setPersonList(response[1])
@@ -41,9 +40,9 @@ const Booking = () => {
         event.preventDefault();
         console.log(room);
         bookingController(booking)
-            .then((response) => {
-                handleResponse(response);
-            })
+        // .then((response) => {
+        //     handleResponse(response);
+        // })
     }
 
     const handleChange = (event) => {
@@ -61,9 +60,9 @@ const Booking = () => {
         }
     }
     return (
-        <div >
+        <div className="bookingDiv ">
 
-            <div className=" bookingDiv mt-5 p-3">
+
                 <h2>Booking working place</h2>
                 <br/>
 
@@ -71,11 +70,11 @@ const Booking = () => {
                     <label htmlFor="">Working Place</label>
                     <br/>
                     <select className="mb-2" value={room} onChange={handleChange} id="rooms">
-                        <option id="" value="Private Room">Individual </option>
-                        <option value="Business Room">Business </option>
-                        <option value="Meeting Room">Meeting </option>
-                        <option value="Hall Room">Convention Hall</option>
-                        <option value="Office Room">Official </option>
+                        <option id="" value="Private Room">Private</option>
+                        <option value="Business Room">Team</option>
+                        <option value="Meeting Room">Meeting</option>
+                        <option value="Conference Room">Conference</option>
+
                     </select>
                     <br/>
 
@@ -94,7 +93,6 @@ const Booking = () => {
                     <Button type="submit" className="btn btn-primary mt-3">Book</Button>
                 </form>
                 <br/>
-            </div>
 
 
             <div className="justify-content-center text-center mt-5">
@@ -103,7 +101,7 @@ const Booking = () => {
                     confirmation &&
 
                     <div className="container bookingNotification w-50 m-auto pt-3">
-                        <h1 style={{color:"green"}}>Booking Successful</h1>
+                        <h1 style={{color: "green"}}>Booking Successful</h1>
                         <h4>Working place type: {confirmation.bookedRoom}</h4>
                         <h4>Booking Date: {confirmation.bookedDate}</h4>
                     </div>

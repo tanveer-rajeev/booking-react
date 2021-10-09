@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { UserContext } from '../../App';
-import { logInWithCredentials, singUPWithCredentials } from './CredentialController';
+import { logInWithCredentials, signUPWithCredentials } from './CredentialController';
 import "./login.css"
 const Login = () => {
 
@@ -13,6 +13,7 @@ const Login = () => {
 
     const [newUser, setNewUser] = useState(false);
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [error,setError] = useState('');
     const history = useHistory();
 
     const handleResponse = (res, redirect) => {
@@ -42,9 +43,11 @@ const Login = () => {
         const { username, password } = credential;
         e.preventDefault();
         if (newUser) {
-            singUPWithCredentials(username, password)
+            signUPWithCredentials(username, password)
                 .then((response) => {
                     handleResponse(response, false);
+                }).catch(err=>{
+                    setError(err);
                 })
         }
         else if (username && password) {
@@ -62,7 +65,7 @@ const Login = () => {
         <div id="accountDiv" className=" container p-5">
 
             <form onSubmit={handleSubmit}>
-                           {
+                            {
                                 newUser && <h1>Create Account</h1>
                             }
                             {
@@ -80,9 +83,9 @@ const Login = () => {
 
                 <br/>
                 <input className="btn-style" type="submit" value={newUser ? 'Sign Up' : 'Log In'} />
-
+               
             </form>
-
+            <p>{error}</p>
             <br />
                  <h5> Don't have an account?</h5>
                 <input type="checkbox" onChange={() => setNewUser(!newUser)} name="newUser" id="" />

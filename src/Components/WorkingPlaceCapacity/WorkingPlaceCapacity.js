@@ -13,14 +13,16 @@ const WorkingPlaceCapacity = () => {
         "pragma": token
     }
 
-    useEffect(()=>{
-        console.log(selectedDate);
-        axios.get(`http://localhost:8080/booking/getCapacity/${selectedDate}`, {
+    const getCapacity = (date)=>{
+         console.log( date);
+        axios.get(`http://localhost:8080/booking/getCapacity/${date}`, {
             headers: header
         }).then(res => {
             setAvailableCapacity(res.data);
         })
-    },[selectedDate])
+  
+    }
+        
 
 
     const  formatDate=  (date) => {
@@ -38,12 +40,10 @@ const WorkingPlaceCapacity = () => {
     }
 
     const handleChange = (date) => {
-
         date = date.toString().slice(0, 16)
         date = formatDate(date)
-
-        console.log(date)
         setSelectedDate(date);
+        getCapacity(date);
     }
 
     return (
@@ -54,7 +54,7 @@ const WorkingPlaceCapacity = () => {
                     <h1 style={{color: '#3A4256'}}>Appointment</h1>
                     <Calendar
                         onChange={handleChange}
-                        value={selectedDate}
+                        value={new Date()}
                     />
                 </div>
                 <div className="col-md-6">

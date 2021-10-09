@@ -1,6 +1,4 @@
 import axios from "axios";
-
-
 export const bookingController = (bookingInfo) => {
 
     const token = sessionStorage.getItem("token");
@@ -11,29 +9,31 @@ export const bookingController = (bookingInfo) => {
     const { room, date, name } = bookingInfo;
     const bookingAPI = `http://localhost:8080/booking/${room}`
 
-    return axios.post(bookingAPI, {
+    // return
+    axios.post(bookingAPI, {
         bookingDate: date,
         username: name
     }, {
         headers: header
-    }).then(res => {
-        return {
-            bookedDate: date,
-            bookedRoom: room
-        };
+    }).then((response) => {
+        console.log(response.data);
+        if(response.data.bookedPersonsList) console.log("yes")
+        // return {
+        //     bookedDate: date,
+        //     bookedRoom: room
+        // };
 
     }).catch(err => {
-       
-        return bookingErrorNotification(err);
+        console.log(err.response.data);
+        // return bookingErrorNotification(err);
         
     })
 
 }
 
-
-
 const bookingErrorNotification = (err) => {
     const errMessage = err.response.data;
+    console.log(errMessage)
     if (errMessage.message) {
         if (errMessage.message.charAt(0) === '!') {
             alert("User name not found in the system");
